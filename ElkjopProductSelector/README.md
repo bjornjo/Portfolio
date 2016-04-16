@@ -12,7 +12,7 @@ bower install
 ```sh
 gulp serve
 ```
-- Appen kjører på localhost:1337
+- Appen kjører på localhost:1337 (Appen fungerer best med Chrome)
 
 
 
