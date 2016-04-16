@@ -1,0 +1,33 @@
+{
+  "name": "mappe-element1",
+  "version": "1.0.0",
+  "description": "Dette er første mappe-element i Webutvikling og API-design",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "jwt-simple": "^0.5.0",
+    "mongoose": "^4.4.10",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.2",
+    "redux": "^3.3.1"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-object-rest-spread": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-react-hmre": "^1.1.0",
+    "webpack": "^1.12.14",
+    "webpack-dev-middleware": "^1.5.1",
+    "webpack-hot-middleware": "^2.7.1"
+  }
+}

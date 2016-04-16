@@ -1,0 +1,13 @@
+# Bundle
+build/
+
+# Node
+node_modules/
+npm-debug.log
+
+# IntelliJ
+.idea/
+*.iml
+
+# OSX
+.DS_Store
