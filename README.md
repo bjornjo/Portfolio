@@ -1,4 +1,7 @@
+Om appen
 Dette er et prosjekt jeg har utviklet i sammenheng med faget iOS-programmering på Westerdals Oslo ACT.
+Hensikten med appen er at man skal kunne søke etter filmer fra et API (OMDB), 
+og legge til filmene i en favorittliste der man kan gi sin egen tilbakemelding om filmen.
 
 Retningslinjer for test av appen:
 - Om appen testes i simulator bør software keyboard skrues på (CMD + K), 
@@ -11,8 +14,6 @@ da det er tatt utgangspunkt for det i appen når bruker skal skrive inn noe.
 - Klikk på en film i favorittlista - Her kan man skrive i tekstfeltet og se mer informasjon om filmen (Hentet fra API'et)
 - Skriver man i tekstfeltet og klikker utenfor tekstboksen, blir teksten lagret til filmen, 
 så om man går ut av appen og inn på filmen igjen vil teksten fortsatt være der
-
-
 
 Prosjektet er desverre ufullstendig, og har visse mangler:
 - Jeg ser noen problemer ved bruk av checkmark i søke-viewet, der markøren blir fjernet når man blar opp og ned i tableviewet. 
