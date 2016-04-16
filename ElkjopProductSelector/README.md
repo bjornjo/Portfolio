@@ -1,6 +1,21 @@
 
 # elkjopproduktvelger
 
+Her er en guide på hvordan man starter opp prosjektet.
+- Klon prosjektet
+- Installer node - > installer npm - > installer bower -> installer gulp
+- I bash, skriv bower install i rotmappen til prosjektet:
+```sh
+bower install
+```
+- Kjør gulp serve i rotmappen til prosjektet
+```sh
+gulp serve
+```
+- Appen kjører på localhost:1337
+
+
+
 #### Quick-start (for experienced users)
 
 With Node.js installed, run the following one liner from the root of your Polymer Starter Kit download:
