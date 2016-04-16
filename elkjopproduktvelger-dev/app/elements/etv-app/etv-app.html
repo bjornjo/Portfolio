@@ -1,0 +1,267 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/iron-swipeable-pages/iron-swipeable-pages.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-bottom-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-down-animation.html">
+
+<dom-module id="etv-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      app-toolbar {
+        background-color: #141B4D;
+        height: 84px;
+        color: #fff;
+      }
+      paper-dialog app-toolbar {
+        height: 64px;
+      }
+      app-drawer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: auto!important;
+        bottom: 0;
+        width: 320px;
+      }
+
+      .tv-velgeren{
+        width: 25%;
+        position: absolute;
+        margin-left: 70%;
+      }
+
+      iron-swipeable-pages {
+        height: 100%;
+      }
+      iron-pages {
+        position: relative;
+        height: calc(100vh - 84px);
+      }
+
+      iron-pages > div{
+        height: 100%;
+      }
+      paper-dialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 0;
+        margin: 0;
+        z-index: 2;
+        background: #f5f5f6;
+      }
+
+      paper-dialog > * {
+        padding: 0;
+        margin: 0;
+      }
+
+      paper-card {
+        display: block;
+        background-color: #fff;
+        max-width: 640px;
+        margin: 0 auto;
+        margin-top: -52px;
+        margin-bottom: 16px;
+      }
+
+      paper-card .card-content {
+          min-height: 180px;
+          padding: 16px;
+          font-size: 12pt;
+      }
+    </style>
+    <etv-header id="header"></etv-header>
+    <paper-dialog modal
+                  opened="{{showInfo}}"
+                  entry-animation="slide-from-bottom-animation"
+                  exit-animation="slide-down-animation"
+                  id="modal">
+                  <!-- Main Toolbar -->
+                  <app-header-layout>
+                  <app-toolbar>
+                    <paper-icon-button icon="close" on-tap="_toggleInfo"></paper-icon-button>
+                    <div title>
+                      Informasjon
+                    </div>
+                  </app-toolbar>
+                  <app-toolbar></app-toolbar>
+                  <paper-card heading="Hei">
+                    <div class="card-content">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                  </paper-card>
+                </app-header-layout>
+    </paper-dialog>
+
+    <iron-pages attr-for-selected="data-route" selected="{{route}}">
+
+    <etv-home id="home" data-route="home"></etv-home>
+
+    <div data-route="app" class="content-container">
+      <iron-swipeable-pages selected="{{selected}}" threshold="0.1" no-cycle transition-duration="200">
+      <etv-question-price id="questionPrice"></etv-question-price>
+      <etv-question-size id="questionSize"></etv-question-size>
+      <etv-question-important id="questionImportant"></etv-question-important>
+      <etv-question-brands id="questionBrands"></etv-question-brands>
+      <etv-question-placement id="questionPlacement"></etv-question-placement>
+      <etv-question-screen id="questionScreen"></etv-question-screen>
+      <etv-question-smarttv id="questionSmartTV"></etv-question-smarttv>
+      <etv-question-threed id="questionThreed"></etv-question-threed>
+      <etv-question-curved id="questionCurved"></etv-question-curved>
+      </iron-swipeable-pages>
+
+      <etv-side-menu id="sideMenu" selected={{selected}} questions="{{questions}}"></etv-side-menu>
+    </div>
+
+    <etv-results id="results" data-route="results"></etv-results>
+
+  </iron-pages>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-app',
+      listeners: {
+        'answer-reported': '_handleReportedAnswer'
+      },
+      properties: {
+        selected: {
+          type: Number,
+          notify: true
+        },
+        questions: {
+          type: Array,
+          notify: true
+        },
+        showInfo: {
+          type: Boolean,
+          value: false
+        }
+      },
+      ready: function() {
+        this.set('selected', 0);
+        this.questions = [
+          {
+            id: 'price',
+            short: 'Pris',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'size',
+            short: 'Størrelse',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'important',
+            short: 'Viktigst',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'brands',
+            short: 'Merker',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'placement',
+            short: 'TV-plassering',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'screen',
+            short: 'Skjermtype',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'smarttv',
+            short: 'Smart-TV',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'threed',
+            short: '3D',
+            answer: null,
+            answered: false
+          },
+          {
+            id: 'curved',
+            short: 'Kurvet',
+            answer: null,
+            answered: false
+          },
+        ]
+      },
+      _handleAnswer: function(o) {
+        var answer = o.answer;
+        var index = this._findIndex(o.name);
+        var basePath = 'questions.' + index
+        this.set(basePath + '.answer', answer);
+        if (o.skip) {
+          this.set(basePath + '.answered', false);
+        } else {
+          this.set(basePath + '.answered', true);
+        }
+        this.async(function() {
+          this.set('selected', this._goToNext(index));
+        }, 400)
+      },
+      _goToNext: function(index) {
+        var questions = this.questions
+        for (var i = index + 1; i < questions.length; i++) {
+          if (!questions[i].answered) return i;
+        }
+        app.route = 'results';
+      },
+      _toggleInfo: function() {
+        this.showInfo = !this.showInfo;
+      },
+      _handleReportedAnswer: function(e, o) {
+        if (o.skip) {
+          delete app.answers[o.name];
+          app.filterTV(app.answers);
+          this._handleAnswer(o);
+        } else {
+          app.answers[o.name] = o.value
+          app.filterTV(app.answers);
+          this._handleAnswer(o);
+        }
+      },
+      _findIndex: function(val) {
+        for (var i = 0; i < this.questions.length; i++) {
+          if (this.questions[i]['id'] == val) {
+            return i;
+          }
+        }
+          return null;
+      }
+    });
+  })();
+  </script>
+</dom-module>

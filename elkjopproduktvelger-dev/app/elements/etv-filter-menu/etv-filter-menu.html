@@ -1,0 +1,118 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="etv-filter-menu">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 250px;
+        background: white;
+      }
+
+      a{
+        text-decoration: none;
+        color: black;
+      }
+
+      paper-menu {
+        --paper-menu: {
+          padding: 0;
+          background: white;
+        }
+        --paper-menu-selected-item: {
+          background: #607D8B;
+          color: white;
+        }
+        --paper-menu-focused-item: {
+        }
+        --paper-menu-focused-item-after: {
+          background: transparent;
+          border: none;
+        }
+      }
+      paper-item[focused]:before {
+        background: transparent;
+      }
+
+      paper-item {
+        min-height: 64px;
+        width: 210px;
+        margin: auto;
+        line-height: 32px;
+        border: 1px solid rgba(0,0,0,0.11);
+        border-bottom: 2px solid rgba(0,0,0,0.11);
+        border-radius: 5px;
+        margin-top: 2.75px;
+        margin-bottom: 2.75px;
+      }
+      .filter-box{
+        width: 100%;
+        height: 100px;
+        border-bottom: 1px solid gray;
+      }
+      .filter-title{
+        margin-left: 15px;
+      }
+      input{
+        margin-left: 15px;
+        width: 50%;
+      }
+    </style>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+      <input type="text" />
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+    <div class="filter-box">
+      <h3 class="filter-title">Pris</h3>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-filter-menu',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'etv-filter-menu',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,78 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="etv-question-important">
+  <template>
+    <style is="custom-style" include="shared-styles-question"></style>
+    <div class="question">
+            <header><h1>Hva er viktigst for deg?</h1> <paper-button on-tap="_toggleInfo">Mer info</paper-button></header>
+            <div class="answer-row">
+              <paper-button class="image-button" raised data-answer="Ekstra god bildekvalitet" data-ultrahd="true" on-tap="_handleAnswer">
+                <figure style="background-image: url('../../images/movie.jpg')"></figure>
+                <span>Ekstra god bildekvalitet</span>
+                <span class="detail">for den perfekte film-opplevelsen</span>
+              </paper-button>
+              <paper-button class="image-button" raised data-answer="Høy bildefrekvens" data-hz="true" on-tap="_handleAnswer">
+                <figure style="background-image: url('../../images/gaming.jpg')"></figure>
+                <span>Høy bildefrekvens</span>
+                <span class="detail">for deg som er glad i sport og/eller spill</span>
+              </paper-button>
+            </div>
+            <div class="answer-row">
+              <paper-button class="image-button" raised data-answer="Begge deler" data-ultrahd="true" data-hz="true" on-tap="_handleAnswer">
+                <span>Begge delene</span>
+              </paper-button>
+              <paper-button class="image-button" raised data-skip="true" on-tap="_handleAnswer">
+                <span>Hopp over</span>
+              </paper-button>
+            </div>
+          </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-question-important',
+
+      properties: {
+      },
+      _handleAnswer: function(e) {
+        var skip = e.currentTarget.dataset.skip;
+        if (skip == "true") {
+          var o = {
+            name: 'important',
+            answer: '',
+            skip: true
+          }
+        } else {
+          var ultrahd = e.currentTarget.dataset.ultrahd;
+          var hz = e.currentTarget.dataset.hz;
+          var answer = e.currentTarget.dataset.answer;
+          var o = {
+            name: 'important',
+            value: {
+              ultrahd: false,
+              hz: false
+            },
+            answer: answer
+          }
+
+          if (ultrahd) o.value.ultrahd = true;
+          if (hz) o.value.hz = true;
+        }
+        this.fire('answer-reported', o);
+      }
+    });
+  })();
+  </script>
+</dom-module>

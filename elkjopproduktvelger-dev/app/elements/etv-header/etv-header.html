@@ -1,0 +1,85 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+
+<dom-module id="etv-header">
+  <template>
+    <style>
+      app-toolbar {
+        background-color: #141B4D;
+        height: 84px;
+        color: #fff;
+      }
+
+      img {
+        height: 72px;
+        vertical-align: middle;
+      }
+
+      #modal {
+        background: white;
+      }
+
+      [dialog-confirm] {
+        font-weight: bold;
+      }
+    </style>
+    <app-toolbar>
+      <div title><img src="../../images/logo.png" /> TV-velger</div>
+      <span class="flex"></span>
+      <div>TV-er igjen: {{numberOfTvsLeft}}</div>
+      <paper-icon-button on-tap="_openResetModal" icon="close"></paper-icon-button>
+    </app-toolbar>
+    <paper-dialog
+      id="modal"
+      modal
+      entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation">
+      <h2>Sikker på at du vil avslutte?</h2>
+      <div>Hvis du avslutter vil alt du har svart bli slettet, og TV-velgeren starter på starten.</div>
+      <div>Ikke dine svar? Klikk "Start på nytt" for å starte din egen fremgang og finn en TV som passer deg.</div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Avbryt</paper-button>
+        <paper-button dialog-confirm on-tap="_reset">Start på nytt</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-header',
+
+      properties: {
+        numberOfTvsLeft: {
+          type: Number,
+          notify: true
+        }
+      },
+      _openResetModal: function() {
+        var modal = this.$.modal
+        if (modal) {
+          modal.open();
+        }
+      },
+      _reset: function() {
+        console.log('reset');
+      }
+    });
+  })();
+  </script>
+</dom-module>

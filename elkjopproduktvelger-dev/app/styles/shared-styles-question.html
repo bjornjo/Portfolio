@@ -1,0 +1,95 @@
+<!-- shared styles for all elements and index.html -->
+<dom-module id="shared-styles-question">
+  <template>
+
+    <style>
+      .page-title {
+        @apply(--paper-font-display2);
+      }
+
+      paper-menu a > *, paper-menu paper-item > *, paper-menu paper-icon-item > * {
+        pointer-events: none;
+      }
+
+      .question {
+        height: 100%;
+        box-sizing: border-box;
+        width: calc(100% - 250px);
+        padding: 0 24px;
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+        align-items: center;
+        vertical-align: middle;
+      }
+
+      .question header {
+        width: 100%;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-justified);
+        font-size: 16pt;
+      }
+
+      .question header paper-button {
+        font-size: 12pt;
+        background: #1976D2;
+        color: white;
+      }
+
+      .content-container {
+        position: relative;
+      }
+
+      .answer-row {
+        width: 100%;
+        @apply(--layout-horizontal);
+        @apply(--layout-start);
+      }
+
+      .image-button {
+        background: white;
+        padding: 0;
+        overflow: hidden;
+        text-transform: none;
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-justified);
+        margin: 16px;
+      }
+
+      .image-button figure{
+        width: 100%;
+        min-height: 200px;
+        background: tomato;
+        margin: 0;
+        background-size: cover;
+        background-position: center center;
+      }
+
+      .image-button span{
+        font-size: 1.6em;
+        font-weight: bold;
+        padding-top: 48px;
+      }
+
+      .image-button span.detail{
+        padding: 0;
+        font-size: 1em;
+        font-weight: normal;
+      }
+
+      .image-button span:last-of-type{
+          padding-bottom: 48px;
+      }
+
+      @media (max-width: 600px) {
+        .page-title {
+          font-size: 24px!important;
+        }
+      }
+
+
+    </style>
+  </template>
+</dom-module>

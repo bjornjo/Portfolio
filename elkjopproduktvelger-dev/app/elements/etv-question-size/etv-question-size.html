@@ -1,0 +1,73 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="etv-question-size">
+  <template>
+    <style is="custom-style" include="shared-styles-question"></style>
+    <div class="question">
+      <header>
+        <h1>Hvor stor TV vil du ha?</h1> <paper-button on-tap="_toggleInfo">Mer info</paper-button>
+      </header>
+      <div class="answer-row">
+      <paper-button class="image-button" raised data-answer='Mer enn 50"' data-answer-min="51" data-answer-max="999" on-tap="_handleAnswer">
+        <span>Mer enn 50"</span>
+      </paper-button>
+      <paper-button class="image-button" raised data-answer='32" - 50"' data-answer-min="33" data-answer-max="50" on-tap="_handleAnswer">
+        <span>32" - 50"</span>
+      </paper-button>
+    </div>
+    <div class="answer-row">
+      <paper-button class="image-button" raised data-answer='Mindre enn 32"' data-answer-min="0" data-answer-max="31" on-tap="_handleAnswer">
+        <span>Mindre enn 32"</span>
+      </paper-button>
+      <paper-button class="image-button" raised data-skip="true" on-tap="_handleAnswer">
+        <span>Hopp over</span>
+      </paper-button>
+    </div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-question-size',
+
+      properties: {
+      },
+      _handleAnswer: function(e) {
+        var skip = e.currentTarget.dataset.skip;
+        if (skip == "true") {
+          var o = {
+            name: 'size',
+            answer: '',
+            skip: true
+          }
+        } else {
+          var min = e.currentTarget.dataset.answerMin;
+          var max = e.currentTarget.dataset.answerMax;
+          var answer = e.currentTarget.dataset.answer;
+          var o = {
+            name: 'size',
+            value: {
+              min: parseInt(min),
+              max: parseInt(max)
+            },
+            answer: answer
+          }
+        }
+        this.fire('answer-reported', o);
+      }
+    });
+  })();
+  </script>
+</dom-module>

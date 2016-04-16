@@ -1,0 +1,134 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="etv-side-menu">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 250px;
+        background: white;
+        box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      a{
+        text-decoration: none;
+        color: black;
+      }
+
+      paper-menu {
+        --paper-menu: {
+          padding: 0;
+          background: white;
+          height: calc(100vh - 184px);
+          overflow: auto;
+        }
+        --paper-menu-selected-item: {
+          border-left: 3px solid #607D8B;
+          background: rgba(0, 0, 0, 0.1);
+        }
+        --paper-menu-focused-item: {
+        }
+        --paper-menu-focused-item-after: {
+          background: transparent;
+          border: none;
+        }
+      }
+      paper-item[focused]:before {
+        background: transparent;
+      }
+
+      paper-item {
+        min-height: 64px;
+        width: 250px;
+        box-sizing: border-box;
+        border-left: 3px solid transparent;
+      }
+      .paper-item-body-0[two-line] {
+      	min-height: 64px;
+      }
+
+      .result{
+        height: 80px;
+        line-height: 50px;
+        font-size: 14pt;
+        color: white;
+        background: #FFB300;
+        width: 220px;
+        margin: 5px auto;
+        display: block;
+      }
+
+      .answered {
+        border-left: 3px solid #43A047;
+        color: #43A047;
+      }
+
+      .not-answered [item-icon] {
+        display: none;
+      }
+
+      .not-answered {
+        background: white;
+        color: #333;
+      }
+    </style>
+    <paper-menu selected="{{selected}}">
+      <template is="dom-repeat" id="repeat" items="{{questions}}" as="question">
+        <paper-item data-index$="{{index}}" on-tap="_changeSelected" class$="{{_conditionalClass(question.answered)}}">
+          <paper-item-body two-line>
+            <div>{{question.short}}</div>
+            <div secondary>{{question.answer}}</div>
+          </paper-item-body>
+          <iron-icon icon="create" item-icon></iron-icon>
+        </paper-item>
+      </template>
+    </paper-menu>
+
+
+    <a data-route="results" href="/results"><paper-button raised class="result">Gå til resultater</paper-button></a>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-side-menu',
+      properties: {
+        selected: {
+          type: Number,
+          notify: true
+        },
+        questions: {
+          type: Array,
+          notify: true
+        }
+      },
+      _changeSelected: function(e) {
+        var index = parseInt(e.target.dataset.index);
+        this.set('selected', index);
+      },
+      _conditionalClass: function(answered) {
+        return answered ? 'answered' : 'not-answered';
+      }
+    });
+  })();
+  </script>
+</dom-module>

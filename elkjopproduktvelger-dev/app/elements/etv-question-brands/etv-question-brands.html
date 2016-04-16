@@ -1,0 +1,179 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="etv-question-brands">
+  <template>
+    <style is="custom-style" include="shared-styles-question"></style>
+    <style>
+    .brand{
+      width:100%;
+    }
+    paper-button[toggles][active]{
+      background: #78BE20;
+    }/*
+    #next{
+      display: none;
+    }
+    #skip{
+      display: flex;
+    }
+    #markAll{
+      display: flex;
+    }
+    #unMarkAll{
+      display: none;
+    }*/
+    </style>
+    <div class="question">
+      <header>
+        <h1>Foretrekker du noen av disse merkene?</h1> <paper-button on-tap="_toggleInfo">Mer info</paper-button>
+      </header>
+      <div class="answer-row">
+
+        <paper-button toggles data-answer="Sony" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Sony.png" alt="" class="brand" />
+        </paper-button>
+
+        <paper-button toggles data-answer="Samsung" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Samsung.png" alt="" class="brand" />
+        </paper-button>
+        
+        <paper-button toggles data-answer="LG" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Lg.png" alt="" class="brand" />
+        </paper-button>
+        
+        <paper-button toggles data-answer="Toshiba" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Toshiba.png" alt="" class="brand" />
+        </paper-button>
+      </div>
+      <div class="answer-row">
+        <paper-button toggles data-answer="Panasonic" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Panasonic.png" alt="" class="brand" />
+        </paper-button>
+
+        <paper-button toggles data-answer="Grundig" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Grundig.png" alt="" class="brand" />
+        </paper-button>
+        
+        <paper-button toggles data-answer="TCL" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Tlc.png" alt="" class="brand" />
+        </paper-button>
+        
+        <paper-button toggles data-answer="JVC" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Jvc.png" alt="" class="brand" />
+        </paper-button>
+      </div>
+      <div class="answer-row">
+        <paper-button toggles data-answer="Thomson" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Thomson.png" alt="" class="brand" />
+        </paper-button>
+        <paper-button toggles data-answer="Pioneer" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Pioneer.png" alt="" class="brand" on-tap="_onButtonMarked"/>
+        </paper-button>
+        <paper-button toggles data-answer="Sharp" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Sharp.png" alt="" class="brand" />
+        </paper-button>
+        <paper-button toggles data-answer="Philips" class="image-button" on-tap="_onButtonMarked">
+          <img src="../../images/logo/Philips.png" alt="" class="brand" />
+        </paper-button>
+      </div>
+      <div class="answer-row">
+        <paper-button hidden$="{{_computeHidden(isAllMarked)}}" class="image-button" id="markAll" raised on-tap="_onMarkAll">
+          <span>Merk alle</span>
+        </paper-button>
+        <paper-button hidden$="{{!_computeHidden(isAllMarked)}}" class="image-button" id="unMarkAll" raised on-tap="_onMarkAll">
+          <span>Avmerk alle</span>
+        </paper-button>
+        <paper-button hidden$="{{_computeHidden(isAnyMarked)}}" class="image-button" id="skip" raised data-skip="true" on-tap="_handleAnswer">
+          <span>Hopp over</span>
+        </paper-button>
+        <paper-button hidden$="{{!_computeHidden(isAnyMarked)}}" class="image-button" id="next" raised data-next="true" on-tap="_handleAnswer">
+          <span>Neste</span>
+        </paper-button>
+      </div>
+    </div>
+  </template>
+  <script>
+
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-question-brands',
+
+      properties: {
+        isAnyMarked: {
+          type: Boolean,
+          value: false
+        },
+        isAllMarked: {
+          type: Boolean,
+          value: false
+        }
+      },
+      _handleAnswer: function(e) {
+        var checkBoxes = this.querySelectorAll("paper-button[toggles]");
+
+        var skip = e.currentTarget.dataset.skip;
+        var next = e.currentTarget.dataset.next;
+
+        var brands = []
+
+        if (skip == "true") {
+          var o = {
+            name: 'brands',
+            answer: '',
+            skip: true
+          }
+        } else {
+          for (var i = 0, checkbox; checkbox = checkBoxes[i]; i++) {
+            if (checkbox.active) {
+              brands.push(checkbox.dataset.answer)
+            }
+          }
+          var o = {
+            name: 'brands',
+            answer: brands
+          }
+        }
+        this.fire('answer-reported', o);
+      },
+
+      _onButtonMarked: function(e) {
+        var checkBoxes = this.querySelectorAll("paper-button[toggles]");
+        this.isAllMarked = true
+        this.isAnyMarked = false
+
+        for (var i = 0, checkbox; checkbox = checkBoxes[i]; i++) {
+          if (!checkbox.active) {
+            this.isAllMarked = false
+          }
+          if (checkbox.active) {
+            this.isAnyMarked = true
+          }
+        }
+      },
+      _onMarkAll: function() {
+        var checkBoxes = this.querySelectorAll("paper-button[toggles]");
+        for (var i = 0, checkbox; checkbox = checkBoxes[i]; i++) {
+          checkbox.active = !this.isAllMarked
+        }
+        this._onButtonMarked();
+      },
+      _computeHidden: function(isAllMarked) {
+        return isAllMarked == true
+      }
+    });
+  })();
+
+  </script>
+</dom-module>

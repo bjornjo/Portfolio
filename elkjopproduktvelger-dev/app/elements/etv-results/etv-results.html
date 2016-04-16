@@ -1,0 +1,190 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-swipeable-pages/iron-swipeable-pages.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
+
+<dom-module id="etv-results">
+  <template>
+
+  <style include="iron-flex iron-flex-alignment"></style>
+
+  <style>
+    h2 {
+      text-align: center;
+      margin: 0;
+      padding: 10px;
+    }
+
+    paper-tabs {
+      font-size: 16pt;
+      --paper-tabs-selection-bar-color: transparent;
+      --paper-tabs-selection-bar-height: 0px;
+    }
+
+    paper-tab {
+      --paper-tab-ink: black;
+      background: rgba(0,0,0,0.1);
+      color: rgba(0,0,0,0.75);
+      font-weight: 500;
+      font-size: 13pt;
+      width: 100px;
+    }
+
+    paper-tab.iron-selected {
+      background: white;
+      font-weight: 600;
+      color: rgba(0,0,0,1);
+      box-shadow: none;
+    }
+
+    .container{
+      width: calc(100% - 250px);
+      height: 100%;
+      padding-top: 16px;
+    }
+
+    .results{
+      background-color: transparent;
+      margin: 0 32px;
+      padding: 0 20px;
+      height: 100%;
+    }
+
+    iron-swipeable-pages {
+      overflow: auto;
+      overflow-x: hidden;
+    }
+
+    #filter-menu{
+      overflow: auto;
+      overflow-x: hidden;
+    }
+
+    etv-results-main {
+      background: white;
+      padding: 16px;
+      box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.1);
+      overflow: auto;
+    }
+
+  </style>
+  <div class="container">
+    <div class="results layout vertical">
+      <h2>Resultater</h2>
+      <paper-tabs selected="{{selected}}" class="layout horizontal">
+        <paper-tab>Mest solgte</paper-tab>
+        <paper-tab>Anbefalt</paper-tab>
+        <paper-tab>Billigst</paper-tab>
+      </paper-tabs>
+      <etv-results-main class="layout flex" tv-array="{{filteredTvArray}}" top-tv="{{topTV}}" id="resultMain"></etv-results-main>
+    </div>
+  </div>
+  <etv-filter-menu class="layout flex" id="filter-menu"></etv-filter-menu>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+
+      is: 'etv-results',
+
+      properties: {
+        selected: {
+          type: Number,
+          notify: true,
+          observer: '_selectedChanged'
+        },
+        tvArray: {
+          type: Array,
+          notify: true,
+          observer: '_tvArrayObserver'
+        },
+        filteredTvArray: {
+          type: Array,
+          notify: true,
+        },
+        topTV: {
+          type: Object,
+          notify: true
+        }
+      },
+      _selectedChanged: function(e) {
+        this.$.resultMain.scrollTop = 0;
+        if(this.tvArray) {
+          switch (this.selected) {
+            case 0:
+              var tempArray = this.tvArray.slice(0);
+              /*tempArray.sort(function(a, b) {
+                if (parseInt(a.price) < parseInt(b.price)) {
+                  return -1;
+                }
+                if (parseInt(a.price) > parseInt(b.price)) {
+                  return 1;
+                }
+                // a must be equal to b
+                return 0;
+              })*/
+              this.topTV = tempArray[0];
+              tempArray.shift();
+              this.set('filteredTvArray', tempArray);
+              break;
+            case 1:
+              var tempArray = this.tvArray.slice(0);
+              /*tempArray.sort(function(a, b) {
+                if (parseInt(a.price) < parseInt(b.price)) {
+                  return -1;
+                }
+                if (parseInt(a.price) > parseInt(b.price)) {
+                  return 1;
+                }
+                // a must be equal to b
+                return 0;
+              })*/
+              this.topTV = tempArray[0];
+              tempArray.shift();
+              this.set('filteredTvArray', tempArray);
+              break;
+            case 2:
+              var tempArray = this.tvArray.slice(0);
+              tempArray.sort(function(a, b) {
+                if (parseInt(a.price) < parseInt(b.price)) {
+                  return -1;
+                }
+                if (parseInt(a.price) > parseInt(b.price)) {
+                  return 1;
+                }
+                // a must be equal to b
+                return 0;
+              })
+              this.topTV = tempArray[0];
+              tempArray.shift();
+              this.set('filteredTvArray', tempArray);
+              break;
+            default:
+          }
+        }
+      },
+      _tvArrayObserver: function(e) {
+        this._selectedChanged();
+      },
+      ready: function() {
+        this.set('selected', 1);
+      }
+    });
+  })();
+  </script>
+</dom-module>

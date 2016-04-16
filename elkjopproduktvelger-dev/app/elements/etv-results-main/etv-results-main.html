@@ -1,0 +1,183 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="etv-results-main">
+  <template>
+    <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+      img{
+        width: 100%;
+        height: inherit;
+      }
+      .product-title{
+        margin: 10px;
+      }
+
+      .product-desc{
+        margin: 10px;
+        margin-top: 0px;
+      }
+
+      p {
+        font-size: 12pt;
+      }
+      .alternatives{
+        text-align: center;
+        border-top: 1px solid gray;
+      }
+
+      .alternative{
+        border: 1px solid rgba(0,0,0,0.1);
+        margin: 8px 0px;
+        height: 100px;
+
+      }
+
+      .alternative-img {
+        min-width: 125px;
+        background: white;
+      }
+
+      .alternative-img img{
+        width: 100px;
+        height: 100px;
+      }
+
+      .alternative-title{
+        width: 200px;
+        text-align: left;
+        font-size: 11pt;
+      }
+
+      .bulletpoints {
+        font-size: 10pt;
+        min-width: 100px;
+        text-align: left;
+      }
+
+      .price {
+        min-width: 132px;
+      }
+
+      .price-bg{
+        background: transparent;
+        text-align: center;
+        width: 100px;
+        height: 50px;
+        line-height: 50px;
+        margin-right: 16px;
+      }
+
+      .price-label{
+        font-size: 16pt;
+        color: red;
+        font-weight: bold;
+      }
+
+      .offer .price-bg {
+        background: yellow;
+        -ms-transform: rotate(-5deg);
+        -webkit-transform: rotate(-5deg);
+        transform: rotate(-5deg);
+      }
+
+      .offer .price-bg .price-label{
+        -ms-transform: rotate(5deg);
+        -webkit-transform: rotate(5deg);
+        transform: rotate(5deg);
+      }
+
+    </style>
+
+    <div class="layout horizontal flex">
+      <div class="layout vertical flex">
+        <img src="{{_fromFullToSquare(topTv.image)}}" />
+        <div class="price-bg"><h3 class="price-label">{{topTv.price}},-</h3></div>
+      </div>
+      <div class="layout vertical flex">
+        <h2>{{topTv.name}}</h2>
+        <div class="bulletpoints">
+          <ul>
+            <li>{{topTv.bulletpoint1}}</li>
+            <li>{{topTv.bulletpoint2}}</li>
+            <li>{{topTv.bulletpoint3}}</li>
+          </ul>
+        </div>
+        <div class="product-desc">
+          <p>{{topTv.short_description}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="alternatives">
+      <h3>Alternativer</h3>
+      <template is="dom-repeat" items="{{tvArray}}" as="tv" index-as="index">
+          <div class="layout horizontal alternative">
+            <div class="alternative-img layout vertical center center-justified">
+              <img src="{{_fromFullToThumb(tv.image)}}" />
+            </div>
+            <div class="alternative-title layout vertical start center-justified">
+              <span>{{tv.name}}</span>
+            </div>
+            <ul class="bulletpoints layout vertical start center-justified">
+              <li>{{tv.bulletpoint1}}</li>
+              <li>{{tv.bulletpoint2}}</li>
+              <li>{{tv.bulletpoint3}}</li>
+            </ul>
+            <div class$="{{_isOffer(tv.campaign_is_current)}} price layout vertical end center-justified flex">
+              <div class="price-bg">
+                <div class="price-label">{{tv.price}},-</div>
+              </div>
+            </div>
+
+          </div>
+        </template>
+    </div>
+
+
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'etv-results-main',
+
+      properties: {
+        tvArray: {
+          type: Array,
+          notify: true
+        },
+        topTv: {
+          type: Object,
+          notify: true
+        }
+      },
+      _fromFullToThumb: function(url) {
+        url = url.slice(0, -6);
+        url += "$thumbnail$";
+        return url
+      },
+      _fromFullToSquare: function(url) {
+        url = url.slice(0, -6);
+        url += "$fullsize$";
+        return url
+      },
+      _isOffer: function(offer) {
+        parseInt(offer)
+        return offer == 1 ? 'offer' : '';
+      }
+    });
+  })();
+  </script>
+</dom-module>
