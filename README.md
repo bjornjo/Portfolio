@@ -1,4 +1,5 @@
 Om appen
+
 Dette er et prosjekt jeg har utviklet i sammenheng med faget iOS-programmering på Westerdals Oslo ACT.
 Hensikten med appen er at man skal kunne søke etter filmer fra et API (OMDB), 
 og legge til filmene i en favorittliste der man kan gi sin egen tilbakemelding om filmen.
